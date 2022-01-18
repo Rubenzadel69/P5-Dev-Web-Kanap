@@ -64,56 +64,77 @@ fetch("http://localhost:3000/api/products/" + idProduct)
         console.log("Une erreur est survenue");
     });
 
+function controlQuantity(qte) {
+    // La fonction parseInt() analyse une chaîne de caractère fournie en argument et renvoie un entier exprimé dans une base donnée
+    let theQuantity = parseInt(qte);
+    let isvalid = true;
+    if (theQuantity < 1 || theQuantity > 100) {
+        isvalid = false;
+        alert("Veuillez choisir une quantité comprise entre 1 et 100");
+    }
+    else {
+        return isvalid;
+    }
+}
+
+
 // Déclaration de la variable relié à l'id du bouton du html
 const btn_ajouterauPanier = document.querySelector('#addToCart');
 // Création d'un événement pour envoyer les données
 btn_ajouterauPanier.addEventListener("click", () => {
 
-    if (choiceQuantite > 0 && choiceQuantite <= 100 && choiceQuantite != 0) {
 
 
-        const colorSelect = document.getElementById('colors');
-        const choiceColor = colorSelect.value;
-
-        const itemQuantity = document.getElementById('quantity');
-        const choiceQuantite = itemQuantity.value;
-
-        var panierLocalStorage = localStorage.getItem('panier');
-        let panier = [];
-        if (panierLocalStorage) {
-            panier = JSON.parse(panierLocalStorage);
-            let findObject = false;
-            for (index in panier) {
-                console.log(panier[index]);
-                if (panier[index].idProduct == getId() && panier[index].color == choiceColor) {
-                    panier[index].quantity = parseInt(panier[index].quantity) + parseInt(choiceQuantite);
-                    findObject = true;
-                }
-            }
-            // Le "!" avant la variable fait l'inverse
-            if (!findObject) {
-                panier.push({
-                    'idProduct': getId(),
-                    'color': choiceColor,
-                    'quantity': parseInt(choiceQuantite)
-                })
-            }
-        } else { // Renvoie au tableau initial 
-            // Création du tableau d'objet
-            panier = [
-                {
-                    'idProduct': getId(),
-                    'color': choiceColor,
-                    'quantity': parseInt(choiceQuantite),
-                }
-            ]
-        }
-
-        // Mettre l'objet "panier" dans le localstorage
-        localStorage.setItem("panier", JSON.stringify(panier));
-        alert('Produit(s) ajouté(s)');
-
+    /*const validatorQuatity = controlQuantity(document.getElementById('quantity').value);
+    if (validatorQuatity) {
+        panier = JSON.parse(panierLocalStorage);
     }
+    else {
+        alert("Indiquez une bonne quantité");
+    }*/
+
+    const colorSelect = document.getElementById('colors');
+    const choiceColor = colorSelect.value;
+
+    const itemQuantity = document.getElementById('quantity');
+    const choiceQuantite = itemQuantity.value;
+
+    var panierLocalStorage = localStorage.getItem('panier');
+    let panier = [];
+    if (panierLocalStorage) {
+        panier = JSON.parse(panierLocalStorage);
+        let findObject = false;
+        for (index in panier) {
+            console.log(panier[index]);
+            if (panier[index].idProduct == getId() && panier[index].color == choiceColor) {
+                panier[index].quantity = parseInt(panier[index].quantity) + parseInt(choiceQuantite);
+                findObject = true;
+            }
+        }
+        // Le "!" avant la variable fait l'inverse
+        if (!findObject) {
+            panier.push({
+                'idProduct': getId(),
+                'color': choiceColor,
+                'quantity': parseInt(choiceQuantite)
+            })
+        }
+    } else { // Renvoie au tableau initial 
+        // Création du tableau d'objet
+        panier = [
+            {
+                'idProduct': getId(),
+                'color': choiceColor,
+                'quantity': parseInt(choiceQuantite),
+            }
+        ]
+    }
+
+    // Mettre l'objet "panier" dans le localstorage
+    localStorage.setItem("panier", JSON.stringify(panier));
+    alert('Produit(s) ajouté(s)');
+
 }
+
 )
 

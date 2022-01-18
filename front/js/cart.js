@@ -28,6 +28,8 @@ for (let productInStorage of productLocalStorage) {
                         const productArticle = document.createElement('article');
                         // Affectation de la classe "cart__item"
                         productArticle.classList.add('cart__item');
+                        productArticle.setAttribute("data-id", productLocalStorage[panier].idProduit)
+                        productArticle.setAttribute("data-color", productLocalStorage[panier].color)
             
                         const imageDiv = document.createElement('div');
                         // Affectation de la valeur dans la classe
@@ -41,8 +43,7 @@ for (let productInStorage of productLocalStorage) {
                         // Affecter l'enfant au parent dans la classe
                         imageDiv.appendChild(productImg);
 
-                        productImg.setAttribute("data-id",)
-            
+                        
                         // Création de la div "content"
                         const contentDiv = document.createElement('div');
                         // Affectation de la valeur dans la classe
@@ -55,7 +56,7 @@ for (let productInStorage of productLocalStorage) {
             
                         // Création du titre h2 description
                         const titleProduct = document.createElement('h2');
-                        productName.textContent = product.name;
+                        titleProduct.textContent = product.name;
                         
                         // Création du p couleur
                         const colorsProduct = document.createElement('p');
@@ -85,6 +86,7 @@ for (let productInStorage of productLocalStorage) {
             
                         // Création de l'input
                         const qteInput = document.createElement('input');
+
                         
                         qteInput.setAttribute("type", number);
                         qteInput.setAttribute("name", "itemQuantity");
@@ -147,7 +149,7 @@ function deleteProduct() {
             productLocalStorage = productLocalStorage.filter(el => el.idProduct !== idProductDelete);
             productLocalStorage = productLocalStorage.filter(el => el.color !== colorProductDelete);
 
-            // Envoie la variable dans le localstorage
+            // Envoie dans le localstorage
             localStorage.setItem("panier", JSON.stringify(panier));
 
             // Alerte pour avertir que le produit a été suppimé
@@ -168,7 +170,7 @@ function getForm() {
 
     let form = document.querySelector('cart__order__form');
 
-    // On crée des expressions de fonction fléchée
+    // On crée les expressions regEx
     const regExFirstLastNameCity = (value) => {
         return /^[A-Za-z,.'-\s]{3,20}$/.test(value);
     }
