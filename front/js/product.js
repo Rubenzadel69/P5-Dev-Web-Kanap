@@ -1,16 +1,18 @@
-const { json } = require("body-parser");
-const { get } = require("http");
 
-// Récupération de la chaine de requette dans l'url
-const queryString_url_id = window.location.search;
-console.log(queryString_url_id);
+function getId() {
+    // Récupération de la chaine de requette dans l'url
+    const queryString_url_id = window.location.search;
+    console.log(queryString_url_id);
 
-// Récupération de l'id du produit
-const urlSearchParams = new URLSearchParams(queryString_url_id);
-console.log(urlSearchParams);
+    // Récupération de l'id du produit
+    const urlSearchParams = new URLSearchParams(queryString_url_id);
+    console.log(urlSearchParams);
+    return urlSearchParams.get("id");
+}
+
 
 // Récupération du numéro id
-const idProduct = urlSearchParams.get("id");
+const idProduct = getId();
 console.log(idProduct);
 
 
@@ -49,7 +51,6 @@ fetch("http://localhost:3000/api/products/" + idProduct)
         const select = document.getElementById('colors');
 
         for (color of product.colors) { // Création d'une boucle pour afficher les couleurs
-
             // on déclare la variable
             const optionProduct = document.createElement('option');
             // On définit la valeur à la variable
@@ -60,29 +61,59 @@ fetch("http://localhost:3000/api/products/" + idProduct)
         }
     })
     .catch(function (err) {
-        // Une erreur est survenue
+        console.log("Une erreur est survenue");
     });
 
+// Déclaration de la variable relié à l'id du bouton du html
+const btn_ajouterauPanier = document.querySelector('#addToCart');
+// Création d'un événement pour envoyer les données
+btn_ajouterauPanier.addEventListener("click", () => {
 
-names.push({ colors, })
-
-let choixProduit = document.getElementById(Produit);
-
-
-// Récupération des valeurs pour les mettre dans le localstorage
-// localStorage.setItem("")
+    if (choiceQuantite > 0 && choiceQuantite <= 100 && choiceQuantite != 0) {
 
 
+        const colorSelect = document.getElementById('colors');
+        const choiceColor = colorSelect.value;
 
-array
-json.
-    string
+        const itemQuantity = document.getElementById('quantity');
+        const choiceQuantite = itemQuantity.value;
 
-getElementById(title)
+        var panierLocalStorage = localStorage.getItem('panier');
+        let panier = [];
+        if (panierLocalStorage) {
+            panier = JSON.parse(panierLocalStorage);
+            let findObject = false;
+            for (index in panier) {
+                console.log(panier[index]);
+                if (panier[index].idProduct == getId() && panier[index].color == choiceColor) {
+                    panier[index].quantity = parseInt(panier[index].quantity) + parseInt(choiceQuantite);
+                    findObject = true;
+                }
+            }
+            // Le "!" avant la variable fait l'inverse
+            if (!findObject) {
+                panier.push({
+                    'idProduct': getId(),
+                    'color': choiceColor,
+                    'quantity': parseInt(choiceQuantite)
+                })
+            }
+        } else { // Renvoie au tableau initial 
+            // Création du tableau d'objet
+            panier = [
+                {
+                    'idProduct': getId(),
+                    'color': choiceColor,
+                    'quantity': parseInt(choiceQuantite),
+                }
+            ]
+        }
 
-let monPanier = [];
-names[0] = Prompt("New member name?");
-localStorage.setItem("names", JSON.stringify(names));
+        // Mettre l'objet "panier" dans le localstorage
+        localStorage.setItem("panier", JSON.stringify(panier));
+        alert('Produit(s) ajouté(s)');
 
-//...
-var storedNames = JSON.parse(localStorage.getItem("names"));
+    }
+}
+)
+

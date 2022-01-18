@@ -10,8 +10,10 @@ fetch("http://localhost:3000/api/products")
         console.log(arrayProducts);
         for (product of arrayProducts) { //Création d'une boucle pour afficher les éléments
 
-            const a = document.createElement('a'); //Création d'un nouveau élément 
-            a.setAttribute('href', './product.html?id=' + product._id); //Récupération de l'attribut
+            // Création d'un nouveau élément en déclarant une constante
+            const a = document.createElement('a');
+            // Récupération de l'attribut
+            a.setAttribute('href', './product.html?id=' + product._id);
 
             // Création de l'article
             const article = document.createElement('article');
@@ -24,7 +26,6 @@ fetch("http://localhost:3000/api/products")
 
             // Création du titre
             const productName = document.createElement('h3');
-
             // Création de classe
             productName.classList.add('productName');
             // Affectation de la valeur dans la classe
