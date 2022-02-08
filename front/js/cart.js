@@ -1,6 +1,6 @@
 // Pour récupéer le localstorage
 let productLocalStorage = JSON.parse(localStorage.getItem("panier"));
-console.log(productLocalStorage);
+
 for (let productInStorage of productLocalStorage) {
 
     let product = productInStorage;
@@ -207,12 +207,12 @@ function getForm() {
 
     const regExEmail = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
     const regExFirstLastNameCity = new RegExp("^[A-Za-z-\s]+$");
-    const regExAdress = new RegExp("^[0-9]{1,4}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$");
+    const regExAddress = new RegExp("^[0-9]{1,4}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$");
 
     // Récupération des informations du formulaire
     const recoveryFirstname = document.getElementById('firstName');
     const recoveryLastname = document.getElementById('lastName');
-    const recoveryAdress = document.getElementById('address');
+    const recoveryAddress = document.getElementById('address');
     const recoveryCity = document.getElementById('city');
     const recoveryEmail = document.getElementById('email');
 
@@ -239,12 +239,12 @@ function getForm() {
     }
 
     // Vérification formulaire adresse
-    const validatorAdress = document.getElementById("addressErrorMsg");
-    if (regExAdress.test(recoveryAdress.value)) {
-        validatorAdress.innerHTML = "OK";
+    const validatorAddress = document.getElementById("addressErrorMsg");
+    if (regExAddress.test(recoveryAddress.value)) {
+        validatorAddress.innerHTML = "OK";
     }
     else {
-        validatorAdress.innerHTML = "Veuillez indiquer un numéro et une rue";
+        validatorAddress.innerHTML = "Veuillez indiquer un numéro et une rue";
         formOk = false;
     }
 
@@ -279,7 +279,7 @@ btn_command.addEventListener('click', (event) => {
     event.preventDefault();
 
     let formOk = getForm();
-
+    formOk = true;
     if (formOk) {
         postForm()
     }
@@ -291,49 +291,43 @@ function postForm() {
     // Récupération des informations du formulaire
     const recoveryFirstname = document.getElementById('firstName');
     const recoveryLastname = document.getElementById('lastName');
-    const recoveryAdress = document.getElementById('address');
+    const recoveryAddress = document.getElementById('address');
     const recoveryCity = document.getElementById('city');
     const recoveryEmail = document.getElementById('email');
 
     // Construction d'un tableau pour les informations du formulaire
-    let idProducts = [];
+    let products = [];
     for (let f = 0; f < productLocalStorage.length; f++) {
-        idProducts.push(productLocalStorage[f].idProduit);
-        console.log(idProducts);
+        products.push(productLocalStorage[f].idProduct);
+        console.log(products);
     }
-
 
     let contact = {
         firstName: recoveryFirstname.value,
         lastName: recoveryLastname.value,
-        city: recoveryAdress.value,
-        adress: recoveryCity.value,
-        mail: recoveryEmail.value,
+        address: recoveryAddress.value,
+        city: recoveryCity.value,
+        email: recoveryEmail.value,
     };
 
-    let product = productInStorage
-    console.log(product.idProduct);
-
-
-
-
-
-
-
-    // Méthode Post pour envoyer et récupérer des données
+    // Méthode Post pour envoyer et récupérer des données    
     fetch("http://localhost:3000/api/products/order", {
         method: 'POST',
-        body: JSON.stringify(contact),
+        body: JSON.stringify([contact, products]),
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
-    },
-    )
-        .then(function (res) {
-            if (res.ok) {
-                return res.json();
-                document.location.href = "confirmation.html";
-            }
-        })
+    }).then(function (response) {
+        console.log(response);
+        if (response.ok) {
+            return response.json();
+        }
+    }).then((data) => {
+        console.log(data);
+
+    })
+        .catch((err) => {
+            alert("Problème avec fetch : " + err.message);
+        });
 }
