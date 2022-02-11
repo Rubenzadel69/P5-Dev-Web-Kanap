@@ -202,7 +202,6 @@ function modifyQuantity(id, color, quantity) {
 }
 
 
-
 function getForm() {
 
     const regExEmail = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
@@ -283,7 +282,6 @@ btn_command.addEventListener('click', (event) => {
     if (formOk) {
         postForm()
     }
-
 })
 
 function postForm() {
@@ -313,7 +311,7 @@ function postForm() {
     // Méthode Post pour envoyer et récupérer des données    
     fetch("http://localhost:3000/api/products/order", {
         method: 'POST',
-        body: JSON.stringify([contact, products]),
+        body: JSON.stringify({ contact, products }),
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -325,9 +323,10 @@ function postForm() {
         }
     }).then((data) => {
         console.log(data);
+        document.location.href = "confirmation.html";
 
     })
         .catch((err) => {
-            alert("Problème avec fetch : " + err.message);
+            alert("Problème avec fetch, veuillez contacter l'administration");
         });
 }
