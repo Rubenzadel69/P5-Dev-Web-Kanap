@@ -278,7 +278,7 @@ btn_command.addEventListener('click', (event) => {
     event.preventDefault();
 
     let formOk = getForm();
-    formOk = true;
+
     if (formOk) {
         postForm()
     }

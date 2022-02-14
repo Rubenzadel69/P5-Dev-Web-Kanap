@@ -1,8 +1,14 @@
 
+function recoveryOrder() {
 
-window.location.href
+    // Récupération de la chaine de requette dans l'url
+    const urlOrder = window.location.search;
 
-order = URLSearchParams.length(orderId);
+    // Récupération de l'id du produit
+    const urlSearchParamsOrder = new URLSearchParams(urlOrder);
+    const orderId = urlSearchParamsOrder.get("orderId");
 
-document.element
+    document.getElementById("orderId").textContent = `${orderId}`;
 
+}
+recoveryOrder();
