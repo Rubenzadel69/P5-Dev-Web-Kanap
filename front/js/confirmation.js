@@ -8,7 +8,8 @@ function recoveryOrder() {
     const urlSearchParamsOrder = new URLSearchParams(urlOrder);
     const orderId = urlSearchParamsOrder.get("orderId");
 
+    // Récupération de l'emplacement et affectation de l'id
     document.getElementById("orderId").textContent = `${orderId}`;
-
+    localStorage.clear();
 }
 recoveryOrder();

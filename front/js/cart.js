@@ -83,8 +83,6 @@ for (let productInStorage of productLocalStorage) {
             const qteProduct = document.createElement('p');
             qteProduct.innerHTML = 'Qté :';
 
-
-
             // Création de l'input
             const qteInput = document.createElement('input');
             qteInput.value = product.quantity;
@@ -206,7 +204,8 @@ function getForm() {
 
     const regExEmail = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
     const regExFirstLastNameCity = new RegExp("^[A-Za-z-\s]+$");
-    const regExAddress = new RegExp("^[0-9]{1,4}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$");
+    const regExAddress = new RegExp("^[0-9]{1,4} [^- ][a-zA-Z '-àâäéèêëïîôöùûü]*[^- ]$");
+
 
     // Récupération des informations du formulaire
     const recoveryFirstname = document.getElementById('firstName');
@@ -243,7 +242,7 @@ function getForm() {
         validatorAddress.innerHTML = "OK";
     }
     else {
-        validatorAddress.innerHTML = "Veuillez indiquer un numéro et une rue";
+        validatorAddress.innerHTML = "Veuillez indiquer une adresse valde";
         formOk = false;
     }
 
@@ -323,10 +322,10 @@ function postForm() {
         }
     }).then((data) => {
         console.log(data);
-        document.location.href = "confirmation.html";
+        document.location.href = `confirmation.html?orderId=${data.orderId}`;
 
     })
         .catch((err) => {
-            alert("Problème avec fetch, veuillez contacter l'administration");
+            alert("Problème, veuillez contacter l'administration");
         });
 }
