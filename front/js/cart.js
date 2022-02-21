@@ -242,7 +242,7 @@ function getForm() {
         validatorAddress.innerHTML = "OK";
     }
     else {
-        validatorAddress.innerHTML = "Veuillez indiquer une adresse valde";
+        validatorAddress.innerHTML = "Veuillez indiquer une adresse";
         formOk = false;
     }
 
